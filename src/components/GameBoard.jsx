@@ -6,22 +6,34 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-export default function GameBoard() {
-
-  const[gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
+  const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   function handleSelectSquare(rowIndex, colIndex) {
     setGameBoard((prevGameBoard) => {
-      const updatedBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
-      updatedBoard[rowIndex][colIndex] = 'X'
+      const updatedBoard = [
+        ...prevGameBoard.map((innerArray) => [...innerArray]),
+      ];
+      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+
       return updatedBoard;
-    })
+    });
+
+    onSelectSquare(); //nested function that is passed to the parent component as a props
   }
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (
         <li key={rowIndex}>
-          <ol>{row.map((playerSymbol, colIndex) => <li key={colIndex}><button onClick={() => handleSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button></li>)}</ol>
+          <ol>
+            {row.map((playerSymbol, colIndex) => (
+              <li key={colIndex}>
+                <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>
+                  {playerSymbol}
+                </button>
+              </li>
+            ))}
+          </ol>
         </li>
       ))}
     </ol>
