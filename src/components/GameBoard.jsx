@@ -1,26 +1,34 @@
-import { useState } from "react";
-
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onSelectSquare, turns }) {
 
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevGameBoard) => {
-      const updatedBoard = [
-        ...prevGameBoard.map((innerArray) => [...innerArray]),
-      ];
-      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //the data is derived from updatedTurns from the App file
+  let gameBoard = initialGameBoard;
 
-      return updatedBoard;
-    });
+  for (const turn of turns) {
+    const {square, player } = turn;
+    const {row, col} = square;
 
-    onSelectSquare(); //nested function that is passed to the parent component as a props
-  }
+    gameBoard[row][col] = player;
+  };
+
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+  // function handleSelectSquare(rowIndex, colIndex) {
+  //   setGameBoard((prevGameBoard) => {
+  //     const updatedBoard = [
+  //       ...prevGameBoard.map((innerArray) => [...innerArray]),
+  //     ];
+  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+
+  //     return updatedBoard;
+  //   });
+
+  //   onSelectSquare(); //nested function that is passed to the parent component as a props
+  // }
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (
@@ -28,7 +36,7 @@ export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>
+                <button onClick={() => {onSelectSquare(rowIndex, colIndex)}}>
                   {playerSymbol}
                 </button>
               </li>
