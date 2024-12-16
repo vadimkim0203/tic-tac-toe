@@ -1,6 +1,7 @@
 import { useState, React } from "react";
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
+import Log from "./components/Log.jsx";
 
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
@@ -46,7 +47,7 @@ function App() {
         />
       </div>
 
-      {/* LOG */}
+      <Log turns={gameTurns}/>
     </main>
   );
 }
