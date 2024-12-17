@@ -1,11 +1,15 @@
 import { useState, React } from "react";
 
-export default function Player({ initialName, symbol, isActive }) { //isActive is a custom prop that manages the css class based on a current state
+export default function Player({ initialName, symbol, isActive, onChangeName }) { //isActive is a custom prop that manages the css class based on a current state
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
   function handleEditClick() {
     setIsEditing((editing) => !editing);
+    
+    if(isEditing){
+      onChangeName(symbol, playerName)
+    }
   }
   function handleChange(event) {
     setPlayerName(event.target.value);
